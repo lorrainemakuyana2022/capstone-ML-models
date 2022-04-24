@@ -28,5 +28,5 @@ For development on thee FRDM-K64F development board, it is assumed you already h
 #### Steps 
 1. Create a C++ application in MCUExpresso IDE. When prompted, choose C++ project and Semihost Console to enable you to see inferencing results. 
 2. From the frdm-k64f folder of this repository, download the **library** folder and extract it. Place the folders ei, mp and tflite in the **source** folder in the project you just created.
-3. Copy the contents of the <code>main.cpp</main> file into the <code>Project_Name.cpp</code> in your project source folder. 
+3. Copy the contents of the <code>main.cpp</code> file into the <code>Project_Name.cpp</code> in your project source folder. 
 4. Connect your FRDM-K64F board to your PC. Build and Run the project in Debug Mode to be able to see inferencing results.
