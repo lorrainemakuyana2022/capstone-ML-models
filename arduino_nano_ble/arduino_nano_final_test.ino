@@ -1,23 +1,6 @@
-/* Edge Impulse Arduino examples
- * Copyright (c) 2021 EdgeImpulse Inc.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+/* 
+ * Code to test ML Model on Arduino Nano BLE 
+ * Some code generated and used from downloaded library
  */
 
 /* Includes ---------------------------------------------------------------- */
@@ -26,22 +9,7 @@
 
 /* Constant defines -------------------------------------------------------- */
 #define CONVERT_G_TO_MS2    9.80665f
-#define MAX_ACCEPTED_RANGE  2.0f        // starting 03/2022, models are generated setting range to +-2, but this example use Arudino library which set range to +-4g. If you are using an older model, ignore this value and use 4.0f instead
-
-/*
- ** NOTE: If you run into TFLite arena allocation issue.
- **
- ** This may be due to may dynamic memory fragmentation.
- ** Try defining "-DEI_CLASSIFIER_ALLOCATION_STATIC" in boards.local.txt (create
- ** if it doesn't exist) and copy this file to
- ** `<ARDUINO_CORE_INSTALL_PATH>/arduino/hardware/<mbed_core>/<core_version>/`.
- **
- ** See
- ** (https://support.arduino.cc/hc/en-us/articles/360012076960-Where-are-the-installed-cores-located-)
- ** to find where Arduino installs cores on your machine.
- **
- ** If the problem persists then there's not enough memory for this model and application.
- */
+#define MAX_ACCEPTED_RANGE  2.0f        
 
 /* Private variables ------------------------------------------------------- */
 static bool debug_nn = false; // Set this to true to see e.g. features generated from the raw signal
@@ -53,9 +21,6 @@ static float inference_buffer[EI_CLASSIFIER_DSP_INPUT_FRAME_SIZE];
 /* Forward declaration */
 void run_inference_background();
 
-/**
-* @brief      Arduino setup function
-*/
 void setup()
 {
     // put your setup code here, to run once:
@@ -101,7 +66,10 @@ void run_inference_background()
     ei_classifier_smooth_init(&smooth, 10 /* no. of readings */, 7 /* min. readings the same */, 0.8 /* min. confidence */, 0.3 /* max anomaly */);
 
     while (1) {
-        int current_time = millis();
+        
+        // Get current time
+        int start_time = millis();
+        
         // copy the buffer
         memcpy(inference_buffer, buffer, EI_CLASSIFIER_DSP_INPUT_FRAME_SIZE * sizeof(float));
 
@@ -144,9 +112,9 @@ void run_inference_background()
         }
         ei_printf("]\n");
 
-        int time_taken = millis() - current_time;
+        int time_taken = millis() - start_time;
+        
         ei_printf("\n Time taken is %d ms \n", time_taken); 
-        //ei_printf(result.timing);
 
         delay(run_inference_every_ms);
     }
