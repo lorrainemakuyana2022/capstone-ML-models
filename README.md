@@ -30,3 +30,20 @@ For development on thee FRDM-K64F development board, it is assumed you already h
 2. From the frdm-k64f folder of this repository, download the **library** folder and extract it. Place the folders ei, mp and tflite in the **source** folder in the project you just created.
 3. Copy the contents of the <code>main.cpp</code> file into the <code>Project_Name.cpp</code> in your project source folder. 
 4. Connect your FRDM-K64F board to your PC. Build and Run the project in Debug Mode to be able to see inferencing results.
+
+## For Desktop deployment
+For deployment on your desktop PC, ensure you have a linux command line to run the following commnds.  
+Follow the steps below to run inferencing on your machine. 
+
+1. Go to the [Edge Impulse Project](https://studio.edgeimpulse.com/public/87639/latest) 
+2. Click on the following links: Model Testing 
+3. Choose a sample by clicking the three dots on the right and selecting "Show classification". This should open a new window in which inferencing for your selected data sample will run.
+4. On the graph that shows the data sample on this new window, click beside row features to copy the raw features to your clipboard. 
+5. Head over to the main file in the **desktop** folder in this repository which you have already downloaded and extract the .zip folder that is there. 
+6. Paste the copied raw features into the <code>main.cpp</code> file, at the specified location on Line 11. 
+7. Run the following commands in order 
+   ``` 
+    $ make -j 4 
+    $ ./build/app
+   ```
+   This shou;d display the inferencing results for your chosen sample.
